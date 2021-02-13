@@ -1,0 +1,37 @@
+import plotly.express as px # pip install plotly https://plotly.com/python/plotly-express/
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import StandardScaler # pip install scikit-learn
+import matplotlib.patches as mpatches
+import matplotlib.patheffects as pe
+
+pares='/home/marcos/Escritorio/PARES.csv'
+impares='/home/marcos/Escritorio/IMPARES.csv'
+total='/home/marcos/Escritorio/TOTAL.csv'
+par= pd.read_csv(pares,sep='\t');impar = pd.read_csv(impares,sep='\t');tot=pd.read_csv(total,sep='\t')
+
+#PARES
+ypar=par['Test de inteligencia']
+xpar=par['Futbolistas']
+
+#IMPARES
+yimpar=impar['Test de inteligencia']
+ximpar=impar['Futbolistas']
+
+#TOTAL
+y=tot['Test de inteligencia']
+x=tot['Futbolistas']
+
+
+ax = plt.gca()
+ax.scatter(xpar, ypar, color="#5F77FD", label='Pares')
+ax.scatter(ximpar, yimpar, color="#FF9C2E", label='Impares')
+plt.plot(np.unique(xpar), np.poly1d(np.polyfit(xpar, ypar, 1))(np.unique(xpar)), color="#5F77FD")
+plt.plot(np.unique(ximpar), np.poly1d(np.polyfit(ximpar, yimpar, 1))(np.unique(ximpar)), color="#FF9C2E")
+plt.plot(np.unique(x), np.poly1d(np.polyfit(x, y, 1))(np.unique(x)), color='black')
+ax.legend()
+plt.xlabel('Número de futbolstas nombrados')
+plt.ylabel('Número de preguntas acertadas en el test de inteligencia')
+plt.title('Gráfica de dispersión')
+plt.show()
